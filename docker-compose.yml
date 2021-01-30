@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  web:
+    image: nuteshev/nginx
+    container_name: web
+    depends_on:
+      - php
+    ports:
+      - "80:80"
+    networks:
+      front_net:
+        ipv4_address: 10.20.30.10
+        aliases:
+          - web
+  php:
+    image: nuteshev/php-fpm
+    networks:
+      front_net:
+        aliases:
+          - php
+networks:
+  front_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.20.30.0/24"
